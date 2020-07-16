@@ -8,7 +8,7 @@ class Forward_Euler(integrate.OdeSolver):
         self._step = step
 
     def _step_impl(self):
-        #try:
+        try:
             out = self.y + self._step * self.fun(self.t, self.y)
             # Check for NaN
             if False in np.isfinite(out):
@@ -17,8 +17,8 @@ class Forward_Euler(integrate.OdeSolver):
             self.t += self._step
             self.y = out
             return True, ""
-        #except:
-         #   return False, "An unknown error occurred"
+        except:
+            return False, "An unknown error occurred"
 
 
     def _dense_output_impl(self):
