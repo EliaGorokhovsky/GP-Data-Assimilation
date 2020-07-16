@@ -1,0 +1,374 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 130023424 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2857), pid=16739, tid=16740
+#
+# JRE version:  (11.0.7+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.7+10-b765.53, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Core dump will be written. Default location: Core dumps may be processed with "/lib/systemd/systemd-coredump %P %u %g %s %t 9223372036854775808 %e" (or dumping to /home/elia/Documents/Programming/GP-Data-Assimilation/core.16739)
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: org.jetbrains.git4idea.http.GitAskPassApp Username for 'https://github.com': 
+
+Host: Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz, 8 cores, 7G, Linux Mint 19.3 Tricia
+Time: Tue Jul  7 23:23:32 2020 MDT elapsed time: 1 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f0fcc016800):  JavaThread "Unknown thread" [_thread_in_vm, id=16740, stack(0x00007f0fd4e37000,0x00007f0fd4f38000)]
+
+Stack: [0x00007f0fd4e37000,0x00007f0fd4f38000],  sp=0x00007f0fd4f36200,  free space=1020k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xd6663f]  VMError::report_and_die(int, char const*, char const*, __va_list_tag*, Thread*, unsigned char*, void*, void*, char const*, int, unsigned long)+0x37f
+V  [libjvm.so+0xd6731b]  VMError::report_and_die(Thread*, char const*, int, unsigned long, VMErrorType, char const*, __va_list_tag*)+0x2b
+V  [libjvm.so+0x653295]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*, ...)+0xc5
+V  [libjvm.so+0xb6f5c8]  os::pd_commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0xd8
+V  [libjvm.so+0xb66b3d]  os::commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0x1d
+V  [libjvm.so+0x76b6ac]  G1PageBasedVirtualSpace::commit_preferred_pages(unsigned long, unsigned long)+0x6c
+V  [libjvm.so+0x76ba8e]  G1PageBasedVirtualSpace::commit(unsigned long, unsigned long)+0x19e
+V  [libjvm.so+0x774d86]  G1RegionsLargerThanCommitSizeMapper::commit_regions(unsigned int, unsigned long, WorkGang*)+0x46
+V  [libjvm.so+0x7ec7e4]  HeapRegionManager::commit_regions(unsigned int, unsigned long, WorkGang*)+0x54
+V  [libjvm.so+0x7ed3f0]  HeapRegionManager::make_regions_available(unsigned int, unsigned int, WorkGang*)+0x30
+V  [libjvm.so+0x7ed817]  HeapRegionManager::expand_at(unsigned int, unsigned int, WorkGang*) [clone .part.24]+0xf7
+V  [libjvm.so+0x7298c0]  G1CollectedHeap::expand(unsigned long, WorkGang*, double*)+0xe0
+V  [libjvm.so+0x729fc1]  G1CollectedHeap::initialize()+0x681
+V  [libjvm.so+0xd29481]  Universe::initialize_heap()+0x41
+V  [libjvm.so+0xd29756]  universe_init()+0x46
+V  [libjvm.so+0x80c6a7]  init_globals()+0x57
+V  [libjvm.so+0xd035ca]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x30a
+V  [libjvm.so+0x8b0aa1]  JNI_CreateJavaVM+0x51
+C  [libjli.so+0x3b9f]  JavaMain+0x7f
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x0000562764c9e030, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x00007f0fcc041000 GCTaskThread "GC Thread#0" [stack: 0x00007f0fd1455000,0x00007f0fd1555000] [id=16741]
+  0x00007f0fcc072800 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007f0fb8e26000,0x00007f0fb8f26000] [id=16742]
+  0x00007f0fcc074800 ConcurrentGCThread "G1 Conc#0" [stack: 0x00007f0fb8d24000,0x00007f0fb8e24000] [id=16743]
+
+[error occurred during error reporting (printing all threads), id 0xb, SIGSEGV (0xb) at pc=0x00007f0fd34b6040]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007f0fcc012fb0] Heap_lock - owner thread: 0x00007f0fcc016800
+
+Heap address: 0x0000000084000000, size: 1984 MB, Compressed Oops mode: Non-zero based: 0x0000000084000000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (3 events):
+Event: 0.694 Protecting memory [0x00007f0fd4e37000,0x00007f0fd4e3b000] with protection modes 0
+Event: 0.827 Loaded shared library /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libzip.so
+Event: 0.855 Loaded shared library /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjimage.so
+
+
+Dynamic libraries:
+8bc00000-100000000 ---p 00000000 00:00 0 
+5627632b8000-5627632b9000 r-xp 00000000 08:05 8782648                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/bin/java
+5627634b9000-5627634ba000 r--p 00001000 08:05 8782648                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/bin/java
+5627634ba000-5627634bb000 rw-p 00002000 08:05 8782648                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/bin/java
+562764c9a000-562764cbb000 rw-p 00000000 00:00 0                          [heap]
+7f0fa4000000-7f0fa4021000 rw-p 00000000 00:00 0 
+7f0fa4021000-7f0fa8000000 ---p 00000000 00:00 0 
+7f0faa000000-7f0fac000000 rw-p 00000000 00:00 0 
+7f0fac000000-7f0fac021000 rw-p 00000000 00:00 0 
+7f0fac021000-7f0fb0000000 ---p 00000000 00:00 0 
+7f0fb0200000-7f0fb4000000 ---p 00000000 00:00 0 
+7f0fb4000000-7f0fb4021000 rw-p 00000000 00:00 0 
+7f0fb4021000-7f0fb8000000 ---p 00000000 00:00 0 
+7f0fb818d000-7f0fb8d22000 rw-p 00000000 00:00 0 
+7f0fb8d22000-7f0fb8d23000 ---p 00000000 00:00 0 
+7f0fb8d23000-7f0fb8e24000 rw-p 00000000 00:00 0 
+7f0fb8e24000-7f0fb8e25000 ---p 00000000 00:00 0 
+7f0fb8e25000-7f0fb8f26000 rw-p 00000000 00:00 0 
+7f0fb8f26000-7f0fb9196000 rwxp 00000000 00:00 0 
+7f0fb9196000-7f0fb94b7000 ---p 00000000 00:00 0 
+7f0fb94b7000-7f0fb9727000 rwxp 00000000 00:00 0 
+7f0fb9727000-7f0fc09ee000 ---p 00000000 00:00 0 
+7f0fc09ee000-7f0fc0c5e000 rwxp 00000000 00:00 0 
+7f0fc0c5e000-7f0fc7f26000 ---p 00000000 00:00 0 
+7f0fc7f26000-7f0fcc000000 r--s 00000000 08:05 8782632                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/modules
+7f0fcc000000-7f0fcc0a2000 rw-p 00000000 00:00 0 
+7f0fcc0a2000-7f0fd0000000 ---p 00000000 00:00 0 
+7f0fd00ab000-7f0fd0c4b000 ---p 00000000 00:00 0 
+7f0fd0c4b000-7f0fd1453000 rw-p 00000000 00:00 0 
+7f0fd1453000-7f0fd1454000 ---p 00000000 00:00 0 
+7f0fd1454000-7f0fd155a000 rw-p 00000000 00:00 0 
+7f0fd155a000-7f0fd1640000 ---p 00000000 00:00 0 
+7f0fd1640000-7f0fd1645000 rw-p 00000000 00:00 0 
+7f0fd1645000-7f0fd172b000 ---p 00000000 00:00 0 
+7f0fd172b000-7f0fd1746000 r-xp 00000000 08:05 8782610                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjimage.so
+7f0fd1746000-7f0fd1946000 ---p 0001b000 08:05 8782610                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjimage.so
+7f0fd1946000-7f0fd1948000 r--p 0001b000 08:05 8782610                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjimage.so
+7f0fd1948000-7f0fd1949000 rw-p 0001d000 08:05 8782610                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjimage.so
+7f0fd1949000-7f0fd1950000 r-xp 00000000 08:05 8782631                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libzip.so
+7f0fd1950000-7f0fd1b4f000 ---p 00007000 08:05 8782631                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libzip.so
+7f0fd1b4f000-7f0fd1b50000 r--p 00006000 08:05 8782631                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libzip.so
+7f0fd1b50000-7f0fd1b51000 rw-p 00007000 08:05 8782631                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libzip.so
+7f0fd1b51000-7f0fd1b5c000 r-xp 00000000 08:05 9442283                    /lib/x86_64-linux-gnu/libnss_files-2.27.so
+7f0fd1b5c000-7f0fd1d5b000 ---p 0000b000 08:05 9442283                    /lib/x86_64-linux-gnu/libnss_files-2.27.so
+7f0fd1d5b000-7f0fd1d5c000 r--p 0000a000 08:05 9442283                    /lib/x86_64-linux-gnu/libnss_files-2.27.so
+7f0fd1d5c000-7f0fd1d5d000 rw-p 0000b000 08:05 9442283                    /lib/x86_64-linux-gnu/libnss_files-2.27.so
+7f0fd1d5d000-7f0fd1d63000 rw-p 00000000 00:00 0 
+7f0fd1d63000-7f0fd1d7a000 r-xp 00000000 08:05 9442277                    /lib/x86_64-linux-gnu/libnsl-2.27.so
+7f0fd1d7a000-7f0fd1f79000 ---p 00017000 08:05 9442277                    /lib/x86_64-linux-gnu/libnsl-2.27.so
+7f0fd1f79000-7f0fd1f7a000 r--p 00016000 08:05 9442277                    /lib/x86_64-linux-gnu/libnsl-2.27.so
+7f0fd1f7a000-7f0fd1f7b000 rw-p 00017000 08:05 9442277                    /lib/x86_64-linux-gnu/libnsl-2.27.so
+7f0fd1f7b000-7f0fd1f7d000 rw-p 00000000 00:00 0 
+7f0fd1f7d000-7f0fd1f88000 r-xp 00000000 08:05 9442294                    /lib/x86_64-linux-gnu/libnss_nis-2.27.so
+7f0fd1f88000-7f0fd2187000 ---p 0000b000 08:05 9442294                    /lib/x86_64-linux-gnu/libnss_nis-2.27.so
+7f0fd2187000-7f0fd2188000 r--p 0000a000 08:05 9442294                    /lib/x86_64-linux-gnu/libnss_nis-2.27.so
+7f0fd2188000-7f0fd2189000 rw-p 0000b000 08:05 9442294                    /lib/x86_64-linux-gnu/libnss_nis-2.27.so
+7f0fd2189000-7f0fd2191000 r-xp 00000000 08:05 9442279                    /lib/x86_64-linux-gnu/libnss_compat-2.27.so
+7f0fd2191000-7f0fd2391000 ---p 00008000 08:05 9442279                    /lib/x86_64-linux-gnu/libnss_compat-2.27.so
+7f0fd2391000-7f0fd2392000 r--p 00008000 08:05 9442279                    /lib/x86_64-linux-gnu/libnss_compat-2.27.so
+7f0fd2392000-7f0fd2393000 rw-p 00009000 08:05 9442279                    /lib/x86_64-linux-gnu/libnss_compat-2.27.so
+7f0fd2393000-7f0fd23bc000 r-xp 00000000 08:05 8782600                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjava.so
+7f0fd23bc000-7f0fd25bb000 ---p 00029000 08:05 8782600                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjava.so
+7f0fd25bb000-7f0fd25bc000 r--p 00028000 08:05 8782600                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjava.so
+7f0fd25bc000-7f0fd25be000 rw-p 00029000 08:05 8782600                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libjava.so
+7f0fd25be000-7f0fd25cb000 r-xp 00000000 08:05 8782630                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libverify.so
+7f0fd25cb000-7f0fd27ca000 ---p 0000d000 08:05 8782630                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libverify.so
+7f0fd27ca000-7f0fd27cc000 r--p 0000c000 08:05 8782630                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libverify.so
+7f0fd27cc000-7f0fd27cd000 rw-p 0000e000 08:05 8782630                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/libverify.so
+7f0fd27cd000-7f0fd27d4000 r-xp 00000000 08:05 9442334                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f0fd27d4000-7f0fd29d3000 ---p 00007000 08:05 9442334                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f0fd29d3000-7f0fd29d4000 r--p 00006000 08:05 9442334                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f0fd29d4000-7f0fd29d5000 rw-p 00007000 08:05 9442334                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f0fd29d5000-7f0fd2b72000 r-xp 00000000 08:05 9442256                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f0fd2b72000-7f0fd2d71000 ---p 0019d000 08:05 9442256                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f0fd2d71000-7f0fd2d72000 r--p 0019c000 08:05 9442256                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f0fd2d72000-7f0fd2d73000 rw-p 0019d000 08:05 9442256                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f0fd2d73000-7f0fd3d9c000 r-xp 00000000 08:05 8782643                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/server/libjvm.so
+7f0fd3d9c000-7f0fd3f9c000 ---p 01029000 08:05 8782643                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/server/libjvm.so
+7f0fd3f9c000-7f0fd405b000 r--p 01029000 08:05 8782643                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/server/libjvm.so
+7f0fd405b000-7f0fd4095000 rw-p 010e8000 08:05 8782643                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/server/libjvm.so
+7f0fd4095000-7f0fd40eb000 rw-p 00000000 00:00 0 
+7f0fd40eb000-7f0fd42d2000 r-xp 00000000 08:05 9442193                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f0fd42d2000-7f0fd44d2000 ---p 001e7000 08:05 9442193                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f0fd44d2000-7f0fd44d6000 r--p 001e7000 08:05 9442193                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f0fd44d6000-7f0fd44d8000 rw-p 001eb000 08:05 9442193                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f0fd44d8000-7f0fd44dc000 rw-p 00000000 00:00 0 
+7f0fd44dc000-7f0fd44df000 r-xp 00000000 08:05 9442216                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f0fd44df000-7f0fd46de000 ---p 00003000 08:05 9442216                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f0fd46de000-7f0fd46df000 r--p 00002000 08:05 9442216                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f0fd46df000-7f0fd46e0000 rw-p 00003000 08:05 9442216                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f0fd46e0000-7f0fd46ef000 r-xp 00000000 08:05 8782578                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/jli/libjli.so
+7f0fd46ef000-7f0fd48ee000 ---p 0000f000 08:05 8782578                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/jli/libjli.so
+7f0fd48ee000-7f0fd48ef000 r--p 0000e000 08:05 8782578                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/jli/libjli.so
+7f0fd48ef000-7f0fd48f0000 rw-p 0000f000 08:05 8782578                    /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/jbr/lib/jli/libjli.so
+7f0fd48f0000-7f0fd490a000 r-xp 00000000 08:05 9442326                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f0fd490a000-7f0fd4b09000 ---p 0001a000 08:05 9442326                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f0fd4b09000-7f0fd4b0a000 r--p 00019000 08:05 9442326                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f0fd4b0a000-7f0fd4b0b000 rw-p 0001a000 08:05 9442326                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f0fd4b0b000-7f0fd4b0f000 rw-p 00000000 00:00 0 
+7f0fd4b0f000-7f0fd4b2b000 r-xp 00000000 08:05 9442367                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f0fd4b2b000-7f0fd4d2a000 ---p 0001c000 08:05 9442367                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f0fd4d2a000-7f0fd4d2b000 r--p 0001b000 08:05 9442367                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f0fd4d2b000-7f0fd4d2c000 rw-p 0001c000 08:05 9442367                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f0fd4d2c000-7f0fd4d53000 r-xp 00000000 08:05 9442165                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f0fd4db7000-7f0fd4e37000 rw-p 00000000 00:00 0 
+7f0fd4e37000-7f0fd4e3b000 ---p 00000000 00:00 0 
+7f0fd4e3b000-7f0fd4f3a000 rw-p 00000000 00:00 0 
+7f0fd4f3b000-7f0fd4f40000 rw-p 00000000 00:00 0 
+7f0fd4f40000-7f0fd4f47000 ---p 00000000 00:00 0 
+7f0fd4f47000-7f0fd4f4f000 rw-s 00000000 08:05 801046                     /tmp/hsperfdata_elia/16739
+7f0fd4f4f000-7f0fd4f50000 ---p 00000000 00:00 0 
+7f0fd4f50000-7f0fd4f51000 r--p 00000000 00:00 0 
+7f0fd4f51000-7f0fd4f53000 rw-p 00000000 00:00 0 
+7f0fd4f53000-7f0fd4f54000 r--p 00027000 08:05 9442165                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f0fd4f54000-7f0fd4f55000 rw-p 00028000 08:05 9442165                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f0fd4f55000-7f0fd4f56000 rw-p 00000000 00:00 0 
+7ffda7917000-7ffda7938000 rw-p 00000000 00:00 0                          [stack]
+7ffda7974000-7ffda7977000 r--p 00000000 00:00 0                          [vvar]
+7ffda7977000-7ffda7978000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+
+VM Arguments:
+java_command: org.jetbrains.git4idea.http.GitAskPassApp Username for 'https://github.com': 
+java_class_path (initial): /home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/plugins/git4idea/lib/git4idea-rt.jar:/home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/lib/xmlrpc-2.0.1.jar:/home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/lib/commons-codec-1.14.jar:/home/elia/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/lib/util.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 130023424                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 2080374784                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122910970                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122910970                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=/usr/lib/git-core:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+SHELL=/bin/bash
+DISPLAY=:0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xd67370], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xd67370], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0xd67370], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0xb6b340], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0xb6b340], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0xd67370], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR2: [libjvm.so+0xb6b1d0], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+
+
+---------------  S Y S T E M  ---------------
+
+OS:DISTRIB_ID=LinuxMint
+DISTRIB_RELEASE=19.3
+DISTRIB_CODENAME=tricia
+DISTRIB_DESCRIPTION="Linux Mint 19.3 Tricia"
+uname:Linux 5.0.0-32-generic #34~18.04.2-Ubuntu SMP Thu Oct 10 10:36:02 UTC 2019 x86_64
+OS uptime: 3 days 8:50 hours
+libc:glibc 2.27 NPTL 2.27 
+rlimit: STACK 8192k, CORE 0k, NPROC 31454, NOFILE 1048576, AS infinity, CPU infinity, DATA infinity, FSIZE infinity
+load average:49.14 21.61 8.99
+
+/proc/meminfo:
+MemTotal:        8123268 kB
+MemFree:          107632 kB
+MemAvailable:      16336 kB
+Buffers:             596 kB
+Cached:           664848 kB
+SwapCached:          640 kB
+Active:          6562792 kB
+Inactive:         836988 kB
+Active(anon):    6546288 kB
+Inactive(anon):   818048 kB
+Active(file):      16504 kB
+Inactive(file):    18940 kB
+Unevictable:         348 kB
+Mlocked:             348 kB
+SwapTotal:       2097148 kB
+SwapFree:              0 kB
+Dirty:               920 kB
+Writeback:            36 kB
+AnonPages:       6735600 kB
+Mapped:            50244 kB
+Shmem:            629072 kB
+KReclaimable:      53640 kB
+Slab:             136580 kB
+SReclaimable:      53640 kB
+SUnreclaim:        82940 kB
+KernelStack:       22416 kB
+PageTables:       116632 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     6158780 kB
+Committed_AS:   24474416 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+Percpu:             2272 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:     1871360 kB
+DirectMap2M:     6475776 kB
+
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads):
+62909
+
+
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
+65530
+
+
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+32768
+
+
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0-7
+cpu_memory_nodes: 0
+active_processor_count: 8
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -2
+memory_soft_limit_in_bytes: -1
+memory_usage_in_bytes: 7578710016
+memory_max_usage_in_bytes: 13217726464
+
+Steal ticks since vm start: 0
+Steal ticks percentage since vm start:  0.000
+
+CPU:total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 30 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht, tsc, tscinvbit
+CPU Model and flags from /proc/cpuinfo:
+model name	: Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 sse4_2 popcnt lahf_lm pti tpr_shadow vnmi flexpriority ept vpid dtherm ida
+
+Memory: 4k page, physical 8123268k(108388k free), swap 2097148k(0k free)
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.7+10-b765.53) for linux-amd64 JRE (11.0.7+10-b765.53), built on May 12 2020 01:45:33 by "" with gcc 8.3.1 20190311 (Red Hat 8.3.1-3)
+
+END.
