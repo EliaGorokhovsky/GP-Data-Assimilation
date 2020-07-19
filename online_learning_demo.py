@@ -91,7 +91,7 @@ if __name__ == "__main__":
             simulated_points.set_offsets(np.c_[simulated_times, simulated_states])
             plt.draw()
             plt.pause(1e-17)
-            time.sleep(0.01)
+            time.sleep(0.001)
 
 
         plt.waitforbuttonpress()
