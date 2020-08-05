@@ -1,6 +1,6 @@
 import numpy as np
-from numpy.linalg import norm, cholesky
-from scipy.linalg import cho_solve, solve_triangular
+from numpy.linalg import norm
+from scipy.linalg import cho_solve, solve_triangular, cholesky
 
 
 class RBF:
@@ -42,14 +42,18 @@ class Normal:
         for i in range(number):
             out[i] = np.random.multivariate_normal(self.mean, self.cov)
 
+    def __str__(self):
+        return "N(" + str(self.mean) + ", " + str(self.cov) + ")"
+
 
 class FixedGPR:
     """
     A non-noisy Gaussian process regressor implementation using a fixed RBF kernel
     """
 
-    def __init__(self, kernel):
+    def __init__(self, kernel, alpha=0):
         self.kernel = kernel
+        self.alpha = alpha
         self.training_inputs = None
         self.training_outputs = None
         self._training_size = 0
@@ -79,9 +83,7 @@ class FixedGPR:
 
         # Trivial (no prior) case
         if self.training_inputs is None:
-            for i in range(len(X)):
-                out[i] = Normal([0], x_cov)
-            return out
+            return Normal(np.zeros(number), x_cov)
 
         # Compute pairwise covariance between training and test data (K(X*, X))
         pairwise_covariance = np.empty((number, self._training_size))
@@ -121,8 +123,10 @@ class FixedGPR:
                 self._training_covariance[i, j] = self.kernel(self.training_inputs[i], self.training_inputs[j])
                 self._training_covariance[j, i] = self._training_covariance[i, j]
 
+        self._training_covariance += self.alpha * np.eye(self._training_covariance.shape[0])
+
         # Cholesky here
-        self._L = cholesky(self._training_covariance)
+        self._L = cholesky(self._training_covariance, lower=True)
         # self._L_inv = cho_solve((self._L, True), np.eye(self._training_size))
         self._Kf = cho_solve((self._L, True), self.training_outputs)
 
@@ -170,7 +174,7 @@ class FixedGPR:
         for i in range(self._training_size):
             sum += new_L[self._training_size, i] ** 2
         new_L[self._training_size, self._training_size] = np.sqrt(
-            self._training_covariance[self._training_size, self._training_size] - sum)
+            self._training_covariance[self._training_size, self._training_size] + self.alpha - sum)
         self._L = new_L
 
         # Update K*f
