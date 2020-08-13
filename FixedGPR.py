@@ -45,6 +45,144 @@ class Normal:
     def __str__(self):
         return "N(" + str(self.mean) + ", " + str(self.cov) + ")"
 
+class MultiGPR:
+    """
+    Packs multiple FixedGPRs with the same kernel into a single object for multivariate regression
+    """
+
+    def __init__(self, dim, kernel, alpha=0):
+        self.dim = dim
+        self.kernel = kernel
+        self.alpha = alpha
+        self.training_inputs = None
+        self.training_outputs = np.empty(dim)
+        self._training_size = 0
+        self._training_covariance = None
+        self._L = None
+        self._L_inv = None
+        self._Kf = np.empty(dim)
+
+    def predict(self, X):
+        """
+        Returns the means and covariance matrices of the predictive distribution at each input
+        Args:
+            X: 2d-array of shape (n-points, n-features)
+
+        Returns: 1d-array of shape (n-targets) consisting of Normal objects
+
+        """
+        number = len(X)
+        out = np.empty(self.dim, dtype=object)
+
+        # Construct X covariance (K(X*, X*))
+        x_cov = np.empty((number, number))
+        for i in range(number):
+            for j in range(i + 1):
+                x_cov[i, j] = self.kernel(X[i], X[j])
+                x_cov[j, i] = x_cov[i, j]
+
+        # Trivial (no prior) case
+        if self.training_inputs is None:
+            for i in range(self.dim):
+                out[i] = Normal(np.zeros(number), x_cov)
+            return out
+
+        # Compute pairwise covariance between training and test data (K(X*, X))
+        pairwise_covariance = np.empty((number, self._training_size))
+        for i in range(number):
+            for j in range(self._training_size):
+                pairwise_covariance[i, j] = self.kernel(X[i], self.training_inputs[j])
+
+        # Compute predictive distribution
+        for i in range(self.dim):
+            mean = pairwise_covariance.dot(self._Kf[i])
+            A = solve_triangular(self._L, pairwise_covariance.transpose(), lower=True)
+            cov = x_cov - (A.transpose() @ A)
+            out[i] = Normal(mean, cov)
+        return out
+
+    def fit(self, X, Y):
+        """
+        Sets the training data of the GP and initializes some useful numbers
+        Args:
+            X: inputs array of shape (n-points, n-features)
+            Y: outputs array of shape (n-points, n-targets)
+
+        """
+        self.training_inputs = np.array(X)
+        self.training_outputs = np.array(Y).transpose()
+        assert (self.training_inputs.shape[0] ==
+            self.training_outputs.shape[1]), "Training inputs and outputs should have the same length!"
+        self._training_size = len(self.training_inputs)
+
+        # Construct covariance of training points (K(X, X))
+        self._training_covariance = np.empty((self._training_size, self._training_size))
+        for i in range(self._training_size):
+            for j in range(i + 1):
+                self._training_covariance[i, j] = self.kernel(self.training_inputs[i], self.training_inputs[j])
+                self._training_covariance[j, i] = self._training_covariance[i, j]
+
+        self._training_covariance += self.alpha * np.eye(self._training_covariance.shape[0])
+
+        # Cholesky here
+        self._L = cholesky(self._training_covariance, lower=True)
+        self._Kf = np.empty((self.dim, self.training_inputs.shape[0]))
+        for i in range(self.dim):
+            self._Kf[i] = cho_solve((self._L, True), self.training_outputs[i])
+
+    def add_fit(self, x, y):
+        """
+        Adds new training points to the training set
+        Args:
+            X: input of shape (n-features)
+            y: output of shape (n-targets)
+
+        """
+        if self.training_inputs is None:
+            self.fit([x], [y])
+            return
+
+        self.training_inputs = np.append(self.training_inputs, [x], axis=0)
+        self.training_outputs = np.append(self.training_outputs, y.reshape(-1, 1), axis=1)
+
+        new_training_size = self._training_size + 1
+
+        # Update covariance matrix
+        new_covariance = np.empty((new_training_size, new_training_size))
+        new_covariance[0:self._training_size, 0:self._training_size] = self._training_covariance
+
+        # Get covariance of new training point
+        new_covariance[self._training_size, self._training_size] = self.kernel.variance
+
+        # Get covariance of new points with old points
+        for i in range(self._training_size):
+            cov = self.kernel(self.training_inputs[i], x)
+            new_covariance[i, self._training_size] = cov
+            new_covariance[self._training_size, i] = cov
+
+        self._training_covariance = new_covariance
+
+        # Update Cholesky decomposition using the Cholesky-Banachiewicz algorithm
+        new_L = np.zeros((new_training_size, new_training_size))
+        new_L[0:self._training_size, 0:self._training_size] = self._L
+        for i in range(self._training_size):
+            sum = 0
+            for j in range(i):
+                sum += new_L[self._training_size, j] * new_L[i, j]
+            new_L[self._training_size, i] = (self._training_covariance[self._training_size, i] - sum) / new_L[i, i]
+        sum = 0
+        for i in range(self._training_size):
+            sum += new_L[self._training_size, i] ** 2
+        new_L[self._training_size, self._training_size] = np.sqrt(
+            self._training_covariance[self._training_size, self._training_size] + self.alpha - sum)
+        self._L = new_L
+
+        # Update K*f
+        self._Kf = np.empty((self.dim, self.training_inputs.shape[0]))
+        for i in range(self.dim):
+            self._Kf[i] = cho_solve((self._L, True), self.training_outputs[i])
+        self._training_size = new_training_size
+
 
 class FixedGPR:
     """
@@ -68,11 +206,10 @@ class FixedGPR:
         Args:
             X: 2d-array of shape (n-points, n-features)
 
-        Returns: 1d-array of shape (n-points) consisting of Normal objects
+        Returns: Normal object
 
         """
         number = len(X)
-        out = np.empty(number)
 
         # Construct X covariance (K(X*, X*))
         x_cov = np.empty((number, number))
@@ -92,10 +229,6 @@ class FixedGPR:
                 pairwise_covariance[i, j] = self.kernel(X[i], self.training_inputs[j])
 
         # Compute predictive distribution
-        # pairwise_dot_inverse = pairwise_covariance @ self._inverse_covariance
-        # mean = pairwise_dot_inverse @ self.training_outputs
-        # conj_inv = pairwise_dot_inverse @ pairwise_covariance.transpose()
-        # cov = x_cov - conj_inv
 
         mean = pairwise_covariance.dot(self._Kf)
         A = solve_triangular(self._L, pairwise_covariance.transpose(), lower=True)
@@ -106,8 +239,8 @@ class FixedGPR:
         """
         Sets the training data of the GP and initializes some useful numbers
         Args:
-            X: inputs array of shape (n-points, n-features)
-            y: outputs array of shape (n-points)
+            X: input of shape (n-points, n-features)
+            y: output
 
         """
         self.training_inputs = np.array(X)
