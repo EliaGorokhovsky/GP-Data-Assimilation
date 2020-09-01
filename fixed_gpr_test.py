@@ -18,7 +18,7 @@ if __name__ == "__main__":
     test_data = np.arange(0.1, 10, 0.02)
     test_y = fun(test_data)
 
-    test_kernel = gauss.kernels.RBF(1.0 / number)
+    test_kernel = gauss.kernels.RBF(1.0 / np.sqrt(number))
     test_gpr = gauss.GaussianProcessRegressor(test_kernel, optimizer=None)
     test_gpr.fit(data.reshape(-1, 1), fun(data))
     sklearn_test_outputs = test_gpr.predict(test_data.reshape(-1, 1))

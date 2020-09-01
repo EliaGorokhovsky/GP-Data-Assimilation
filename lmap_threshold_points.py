@@ -8,7 +8,8 @@ r = 4
 c = 1.401155189
 initial = 0.3
 online_steps = 1500
-cov_threshold = 1e-9
+lengthscale = 0.01
+kernel = RBF(1.0, lengthscale)
 
 
 def lmap(r, x):
@@ -26,29 +27,29 @@ def fmap(c, x):
 
 if __name__ == "__main__":
 
-    num_lengthscales = 15
-    lengthscales = np.empty(num_lengthscales)
-    numbers = np.empty(num_lengthscales)
-    lengthscales[0] = 0.1
-    for i in range(1, num_lengthscales):
-        lengthscales[i] = lengthscales[i - 1] / 1.25
+    num_thresholds = 20
+    thresholds = np.empty(num_thresholds)
+    numbers = np.empty(num_thresholds)
+    thresholds[0] = 1e-9
+    for i in range(1, num_thresholds):
+        thresholds[i] = thresholds[i - 1] / 1.25
 
 
     #ax0 = plt.gca()
 
     # Run online learning
-    for i in range(len(lengthscales)):
+    for i in range(len(thresholds)):
         print("starting", i)
         # Define GPR
-        kernel = RBF(1.0, lengthscales[i])
         gpr = FixedGPR(kernel, alpha=1e-10)
+
         measure_pos = initial
 
         number_trues = 0
         for j in range(online_steps):
             # Try using gpr
             next_candidate = gpr.predict([measure_pos])
-            if next_candidate.cov > cov_threshold:
+            if next_candidate.cov > thresholds[i]:
                 true_next = lmap(r, measure_pos)
                 gpr.add_fit([measure_pos], true_next)
                 measure_pos = true_next
@@ -65,7 +66,7 @@ if __name__ == "__main__":
         #plt.draw()
         #plt.pause(0.01)
 
-    x_values = np.log(lengthscales)
+    x_values = np.log(thresholds)
     y_values = np.log(numbers)
     slope, intercept, rvalue, pvalue, stderr = linregress(x_values, y_values)
     print("regression y = ", slope, "x +", intercept, " with r^2 ", rvalue ** 2)
@@ -73,10 +74,10 @@ if __name__ == "__main__":
     ax = plt.axes()
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.scatter(lengthscales, numbers, label="data")
-    ax.plot(lengthscales, np.exp(intercept) * lengthscales ** slope, color="red", label="regression line")
+    ax.scatter(thresholds, numbers, label="data")
+    ax.plot(thresholds, np.exp(intercept) * thresholds ** slope, color="red", label="regression line")
     ax.legend()
-    ax.set_xlabel(r'$\ell$')
+    ax.set_xlabel(r'$\theta$')
     ax.set_ylabel(r'$n$')
     plt.show()
 

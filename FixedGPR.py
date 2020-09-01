@@ -15,7 +15,7 @@ class RBF:
         self.length_scale = length_scale
 
     def __call__(self, x, y, *args, **kwargs):
-        return self.variance * np.exp(-norm(x - y) ** 2 / (2 * self.length_scale))
+        return self.variance * np.exp(-(norm(x - y) / self.length_scale) ** 2 / 2)
 
 
 class Normal:

@@ -21,9 +21,9 @@ if __name__ == "__main__":
     num_lengthscales = 10
     lengthscales = np.empty(num_lengthscales)
     numbers = np.empty(num_lengthscales)
-    lengthscales[0] = 32
+    lengthscales[0] = 16
     for i in range(1, num_lengthscales):
-        lengthscales[i] = lengthscales[i - 1] / 2
+        lengthscales[i] = lengthscales[i - 1] / 1.25
 
     # Run online learning
     for i in range(len(lengthscales)):

@@ -4,7 +4,7 @@ from FixedGPR import RBF, FixedGPR, Normal
 import time
 
 
-kernel = RBF(1.0, 0.1)
+kernel = RBF(1.0, 0.05)
 r = 4
 initial = 0.3
 spin_up = 20
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     fig, ((invariant_ax), (timeseries_ax), (map_ax)) = plt.subplots(3, 1)
     invariant_ax.set_title(r'Invariant measure $\mu$')
     timeseries_ax.set_title("Timeseries")
-    map_ax.set_title("Surrogate map")
+    map_ax.set_title(r'Recurrence relation $x_{n+1} = rx_n(1 - x_n)$')
     invariant_ax.plot(x_values, values, label="lmap")
 
     plt.show()
@@ -91,7 +91,7 @@ if __name__ == "__main__":
             surrogate_lmap.set_ydata(mean)
             map_ax.collections.clear()
             map_ax.fill_between(map_x_values, mean - std, mean + std, facecolor="grey", alpha=0.5)
-            delay = 0.05
+            delay = 0.01
         else:
             measure_pos = next_candidate.mean[0]
             timeseries_ax.scatter(i, measure_pos, color="blue")
